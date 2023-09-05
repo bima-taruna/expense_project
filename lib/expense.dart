@@ -31,8 +31,8 @@ class _Expenses extends State<Expenses> {
       body: Column(
         children: [
           Text(
-            "Halllo",
-          )
+            "The chart",
+          ),
         ],
       ),
     );

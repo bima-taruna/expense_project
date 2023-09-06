@@ -1,3 +1,4 @@
+import 'package:expense_project/widgets/add_expense.dart';
 import 'package:expense_project/widgets/expenses_list/expense_list.dart';
 import 'package:flutter/material.dart';
 
@@ -26,9 +27,22 @@ class _Expenses extends State<Expenses> {
         category: Category.leisure),
   ];
 
+  void _openAddOverlay() {
+    showModalBottomSheet(
+        context: context, builder: (ctx) => const AddExpense());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          title: const Text(
+            "Flutter Expense Tracker",
+            style: TextStyle(fontSize: 16),
+          ),
+          actions: [
+            IconButton(onPressed: _openAddOverlay, icon: const Icon(Icons.add))
+          ]),
       body: Column(
         children: [
           const Text(

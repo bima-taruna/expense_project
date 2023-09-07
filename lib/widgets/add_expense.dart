@@ -13,7 +13,8 @@ class AddExpense extends StatefulWidget {
 class _AddExpenseState extends State<AddExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
-  DateTime? _selectedDate = DateTime.now();
+  DateTime? _selectedDate;
+  Category _selectedCategory = Category.leisure;
 
   void _openDatePicker() async {
     final dateNow = DateTime.now();
@@ -65,7 +66,9 @@ class _AddExpenseState extends State<AddExpense> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(formatter.format(_selectedDate!)),
+                Text(_selectedDate == null
+                    ? "no date selected"
+                    : formatter.format(_selectedDate!)),
                 IconButton(
                     onPressed: _openDatePicker,
                     icon: const Icon(Icons.calendar_month))
@@ -73,9 +76,26 @@ class _AddExpenseState extends State<AddExpense> {
             ))
           ],
         ),
+        const SizedBox(
+          height: 16,
+        ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            DropdownButton(
+                value: _selectedCategory,
+                items: Category.values
+                    .map((value) => DropdownMenuItem(
+                        value: value, child: Text(value.name.toUpperCase())))
+                    .toList(),
+                onChanged: (item) {
+                  if (item == null) {
+                    return;
+                  }
+                  setState(() {
+                    _selectedCategory = item;
+                  });
+                }),
+            const Spacer(),
             TextButton(
                 onPressed: () {
                   Navigator.pop(context);

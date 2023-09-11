@@ -1,4 +1,5 @@
 import 'package:expense_project/widgets/add_expense.dart';
+import 'package:expense_project/widgets/chart/chart.dart';
 import 'package:expense_project/widgets/expenses_list/expense_list.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +38,8 @@ class _Expenses extends State<Expenses> {
   void _removeExpenses(Expense expense) {
     final expenseIndex = _registeredExpenses.indexOf(expense);
     setState(() {
-      _registeredExpenses.remove(expense);
+      _updatedExpenses.remove(expense);
+      _updateExpenses();
     });
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -47,7 +49,8 @@ class _Expenses extends State<Expenses> {
           label: 'Undo',
           onPressed: () {
             setState(() {
-              _registeredExpenses.insert(expenseIndex, expense);
+              _updatedExpenses.insert(expenseIndex, expense);
+              _updateExpenses();
             });
           }),
     ));
@@ -77,9 +80,7 @@ class _Expenses extends State<Expenses> {
           ]),
       body: Column(
         children: [
-          const Text(
-            "The chart",
-          ),
+          Chart(expenses: _registeredExpenses),
           Expanded(child: mainContent)
         ],
       ),
